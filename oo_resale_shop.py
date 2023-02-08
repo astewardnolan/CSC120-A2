@@ -1,67 +1,69 @@
 from computer import*
 class ResaleShop:
     
-    inventory: list
-    OS : str
-    # What attributes will it need?
-
-
-    # How will you set up your constructor?
-    # Remember: in python, all constructors have the same name (__init__)
+    inventory = [] #list to hold computer details
+   
     def __init__(self ):
-        self.inventory= []
-        #self.OS= OS
-
-        #pass # You'll remove this when you fill out your constructor
-    
-    #def itemID(self, Computer): #counts num of computers in inventory
-       # for item in self.inventory:
-          #  self.item_ID += 1
-   # pass 
-    
+        self.inventory = []
+       
             
-    def inventory_buy(self, c:Computer):
+    def inventory_buy(self, c:Computer):# adds computer to inventory when bought
         self.inventory.append(c)
        
     
-    def inventory_sell(self, c:Computer):
+    def inventory_sell(self, c:Computer): #removes sold computer from inventory
         if c in self.inventory:
-            self.inventory.pop(c)
+            self.inventory.remove(c)
         else:
             print("No computer found in inventory")
         
 
-    def refurbish(self, c:Computer, new_os):
+
+    def refurbish(self, c:Computer, new_os): # will update price based on computer year, and update computer's OS to new_os given.
         if c in self.inventory:
-            c.OS= new_os
+            if c.year < 2000:
+                c.price = 0 # too old to sell, donation only
+            elif c.year < 2012:
+                c.price = 250 # heavily-discounted price on machines 10+ years old
+            elif c.year < 2018:
+                c.price = 550 # discounted price on machines 4-to-10 year old machines
+            else:
+                c.price = 1000 # recent stuff
+
+            if new_os is not None:
+                c.OS = new_os # update details after installing new OS
         else:
-            print("This computer is not in out inventory")
+            print("Item", c.computer_name, "not found. Please select another item to refurbish.")
 
 
-    def print_inventory(self, c):
+
+    def print_inventory(self): #Will print out detials for all computers in inventory
     # If the inventory is not empty
         if self.inventory != []:
-            print("abc")
-        
         # For each item
-            for c in self.inventory:
+            for i in self.inventory:
             # Print its details
-                print(self.inventory)
+                i.print_details()
+                print("                           ")
         else:
             print("No inventory to display.")
     
 
-    def main():
-        c=Computer(1, "mac pro", "h", 4,4,"mac", 2000, 5)
-        myShop= ResaleShop(3, "he", "he", 3, 4, "mac", 2000, 50 ) #question, how do i call a specific computer to this part of code!?!?!?!
-        myShop.print_inventory(c)
-        #c=Computer("mac pro", etc)
-        #myShop.buy(c)
-        #like how much info do i need to transfer over???
-    main()
+def main():
+    comp1= Computer("ashby", "h", "b", 3,3, "mac", 2000, 50)
+    comp2= Computer("kat", "l", "b", 3,3, "dell", 2010, 50)
+    comp3= Computer("kait", "l", "b", 3,3, "dell", 2010, 50)
+    myShop= ResaleShop()
+    myShop.inventory_buy(comp1)
+    myShop.inventory_buy(comp2)
+    myShop.refurbish(comp3, "mac 500")
+    myShop.print_inventory()
+    myShop.inventory_sell(comp1)
+    myShop.print_inventory()
+    
+main()
             
             
             
 
 
-    # What methods will you need?
